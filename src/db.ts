@@ -1,5 +1,10 @@
 import { DataSource } from "typeorm";
 import { User } from "./model/userModel";
+import { Category } from "./model/categoriModel";
+import { RSVP } from "./model/rsvpModel";
+import { Tag } from "./model/tagModel";
+import { Comment } from "./model/comentModel";
+import { Event } from "./model/eventModel";
 
 export const AppDataSource = new DataSource({
   type: "mysql",
@@ -10,5 +15,5 @@ export const AppDataSource = new DataSource({
   database: "eventbooker",   // ime baze
   synchronize: true,
   logging: true,
-  entities: [User],          // dodaj i ostale entitete
+  entities: [User,Category,Comment,Event,RSVP,Tag],          // dodaj i ostale entitete
 });

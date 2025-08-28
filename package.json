@@ -28,6 +28,7 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.14.3",
     "reflect-metadata": "^0.2.2",
-    "typeorm": "^0.3.25"
+    "typeorm": "^0.3.25",
+    "zod": "^4.0.17"
   }
 }
