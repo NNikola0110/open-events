@@ -9,13 +9,14 @@ import {
 } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 import { RSVP } from './rsvpModel';
+import { Event } from './eventModel';
 
 export type UserRole = "event_creator" | "admin";
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  user_id!: string;
+  user_id!: number;
 
 //  @BeforeInsert()
 //  generateId() {
@@ -29,12 +30,12 @@ export class User {
   name!: string;
 
   @Column()
-  sername!: string;
+  lastname!: string;
 
   @Column({type:"enum", enum:["event_creator","admin"]})
   role!: UserRole;
 
-  @Column()
+  @Column({ default: true })
   status!: boolean;
   
   @Column({ unique: true })
@@ -45,5 +46,8 @@ export class User {
 
   @OneToMany(()=>RSVP, rsvc => rsvc.user)
   rsvc!:RSVP[];
+
+  @OneToMany(() => Event, event => event.creator)
+  events!: Event[];
 
 }

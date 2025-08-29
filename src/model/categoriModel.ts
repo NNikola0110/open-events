@@ -4,9 +4,11 @@ import {
   Column,
   PrimaryColumn,
   BeforeInsert,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
+  OneToMany
 } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
+import { Event } from './eventModel';
 
 @Entity()
 export class Category{
@@ -14,7 +16,13 @@ export class Category{
   @PrimaryGeneratedColumn()
   id!:number;
 
-   @Column()
-    text!: string;
+   @Column({ unique: true })
+  name!: string;
+
+  @Column()
+  description!: string;
+
+  @OneToMany(() => Event, event => event.category)
+  events!: Event[];
 
 }

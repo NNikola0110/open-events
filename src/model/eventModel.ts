@@ -10,10 +10,14 @@ import {
   ManyToOne,
   CreateDateColumn,
   JoinColumn,
-  ManyToMany
+  ManyToMany,
+  
 } from 'typeorm';
 import { Tag } from './tagModel';
 import { RSVP } from './rsvpModel';
+import { User } from './userModel';
+import { Category } from './categoriModel';
+import { Comment } from './comentModel';
 
 @Entity()
 export class Event {
@@ -38,18 +42,27 @@ export class Event {
     @Column({ default: 0 })
     numberOfViews!:number;
 
-    @Column()
-    creator!:string;
+    @ManyToOne(()=>User, creator=>creator.events)
+    creator!:User;
 
     @ManyToMany(() => Tag, tag => tag.events, { cascade: true })
     tags!: Tag[];
-
-    @Column()
-    category!: string;
 
     @Column({ nullable: true })
     maxCapacity!: number;
 
     @OneToMany(() => RSVP, (rsvp) => rsvp.event)
     rsvps!: RSVP[];
+
+    @ManyToOne(() => Category, category => category.events)
+    category!: Category;
+
+     @OneToMany(() => Comment, comment => comment.event, { cascade: true })
+    comment!: Comment[];
+
+     @Column({ default: 0 })
+     likeCount!: number;
+
+    @Column({ default: 0 })
+    dislikeCount!: number;
 }

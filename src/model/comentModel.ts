@@ -12,13 +12,29 @@ import {
   JoinColumn,
   ManyToMany
 } from 'typeorm';
+import { Event } from './eventModel';
 
 @Entity()
 export class Comment{
 
-    @PrimaryGeneratedColumn()
-    id!:number;
+  @PrimaryGeneratedColumn()
+  id!:number;
 
-    @Column()
-    text!: string;
+  @Column()
+  authorName!: string;
+
+  @Column("text")
+  content!: string;
+
+  @CreateDateColumn()
+  createdAt!: Date;
+
+  @ManyToOne(() => Event, event => event.comment, { onDelete: "CASCADE" })
+  event!: Event;
+
+  @Column({ default: 0 })
+  likeCount!: number;
+
+  @Column({ default: 0 })
+  dislikeCount!: number;
 }
