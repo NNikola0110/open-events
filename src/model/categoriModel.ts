@@ -5,12 +5,13 @@ import {
   PrimaryColumn,
   BeforeInsert,
   PrimaryGeneratedColumn,
-  OneToMany
+  OneToMany,
+  Unique
 } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
 import { Event } from './eventModel';
 
 @Entity()
+@Unique(["name"])
 export class Category{
 
   @PrimaryGeneratedColumn()

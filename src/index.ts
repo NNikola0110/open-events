@@ -1,7 +1,10 @@
 import express, { Application } from 'express'; // Uvoz express-a i njegovih tipova
 import userRoutes from './routes/usersRoutes';   // Uvoz ruta za korisnike
+import adminRoutes from './routes/adminRoutes'; 
 import cors from 'cors';
 import { AppDataSource } from './db';
+import emsCategoriesRoutes from './routes/emsCategoriesRoutes';
+
 
 AppDataSource.initialize()
   .then(() => {
@@ -32,6 +35,8 @@ app.get('/', (req, res) => {
 // Povezujemo korisničke rute
 // Sve rute koje počinju sa "/users" preusmeravamo na userRoutes
 app.use('/users', userRoutes);
+app.use('/admin', adminRoutes);
+app.use('/ems', emsCategoriesRoutes);
 
 // Pokretanje servera
 app.listen(PORT, () => {
