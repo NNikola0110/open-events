@@ -12,5 +12,6 @@ const routs =express.Router();
 routs.post('/categories',authenticateToken, isAdmin || isEventCreator, addCategory);
 routs.get('/categories',authenticateToken, isAdmin|| isEventCreator, getCategories);
 routs.delete('/categories/:id',authenticateToken, isAdmin || isEventCreator, deleteCategory);
+routs.put('/categories/:id',authenticateToken, isAdmin || isEventCreator, deleteCategory);
 
 export default routs;
