@@ -4,6 +4,7 @@ import adminRoutes from './routes/adminRoutes';
 import cors from 'cors';
 import { AppDataSource } from './db';
 import emsCategoriesRoutes from './routes/emsCategoriesRoutes';
+import eventToutes from './routes/eventRoutes';
 
 
 AppDataSource.initialize()
@@ -21,7 +22,7 @@ const PORT = 3000;                  // Definišemo port na kojem aplikacija radi
 
 app.use(cors({
   origin:'*',
-  methods:['GET','POST','PUT','DELETE'],
+  methods:['GET','POST','PUT','DELETE','PATCH'],
   credentials:true
 }));
 // Middleware za parsiranje JSON-a
@@ -37,6 +38,7 @@ app.get('/', (req, res) => {
 app.use('/users', userRoutes);
 app.use('/admin', adminRoutes);
 app.use('/ems', emsCategoriesRoutes);
+app.use('/event', eventToutes);
 
 // Pokretanje servera
 app.listen(PORT, () => {

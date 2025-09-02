@@ -113,3 +113,39 @@ export async function updateUser(req: Request, res: Response) {
     return res.status(500).json({ message: "Internal server error" });
   }
 }
+
+
+export const updateUserStatus = async (req: Request, res: Response) => {
+  try {
+     const idParam = req.params.id;
+    if (!idParam) {
+      return res.status(400).json({ message: "User ID param is required" });
+    }
+    const userId = parseInt(idParam);
+    if (isNaN(userId)) {
+    return res.status(400).json({ message: "Invalid user ID" });
+    }
+
+    const user = await userRepository.findOneBy({ user_id: userId });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (user.role !== 'event_creator') {
+      return res.status(400).json({ message: 'Only event_creators can be activated/deactivated' });
+    }
+
+    user.status = !user.status;
+    await userRepository.save(user);
+
+    return res.status(200).json({
+      message: `User is now ${user.status ? 'active' : 'inactive'}`,
+      userId: user.user_id,
+      status: user.status,
+    });
+  } catch (error) {
+    console.error('Error updating user status:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};

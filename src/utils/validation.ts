@@ -20,3 +20,14 @@ export const CategorySchema = z.object({
   name: z.string().min(1, "Category name is required"),
   description: z.string(),
 });
+
+
+export const EventSchema =z.object({
+  title: z.string().min(3),
+  description: z.string().min(10),
+  startsAt: z.string(), // ISO datum
+  location: z.string().min(2),
+  categoryId: z.number().int().positive(),
+  tags: z.array(z.string().min(2)).optional(),
+  maxCapacity: z.number().int().positive().optional(),
+})

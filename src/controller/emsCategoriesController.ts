@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { AppDataSource } from '../db';
 import { Category } from '../model/categoriModel';
 import { CategorySchema } from '../utils/validation';
+import { Tag } from '../model/tagModel';
 
 
 const categoryRepo = AppDataSource.getRepository(Category);
@@ -81,37 +82,46 @@ export async function deleteCategory(req: Request, res: Response) {
   }
 }
 
+export const updateCategoryHandler = async (req: Request, res: Response) => {
+  const id1 = req.params.id;
 
-//export async function updateCat(req:Request, res:Response){
-//  try {
-//    const parsed = CategorySchema.parse(req.body);
-//
-//    const idParam = req.params.id;
-//    if (!idParam) {
-//      return res.status(400).json({ message: "Category ID param is required" });
-//    }
-//    const userId = parseInt(idParam);
-//    if (isNaN(userId)) {
-//    return res.status(400).json({ message: "Invalid category ID" });
-//    }
-//
-//    const category = await categoryRepo.findOne({ where: { id: parseInt(req.params.id) } });
-//    if (!category) {
-//      return res.status(404).json({ message: "Category not found" });
-//    }
-//
-//    // proveri da li već postoji nova vrednost imena
-//    const exists = await categoryRepo.findOne({ where: { name: parsed.name } });
-//    if (exists && exists.id !== category.id) {
-//      return res.status(400).json({ message: "Another category with this name already exists" });
-//    }
-//
-//    category.name = parsed.name;
-//    await categoryRepo.save(category);
-//
-//    res.json(category);
-//  } catch (err: any) {
-//    res.status(400).json({ message: err.message });
-//  }
-//}
+   if (!id1) {
+      return res.status(400).json({ message: "User ID param is required" });
+    }
+    const id = parseInt(id1);
+    if (isNaN(id)) {
+      return res.status(400).json({ message: "Invalid category ID" });
+    }
 
+  const { name, description } = req.body;
+
+  if (!name || !description) {
+    return res.status(400).json({ error: 'Name and description are required' });
+  }
+
+  try {
+    const categoryRepo = AppDataSource.getRepository(Category);
+
+    const category = await categoryRepo.findOneBy({ id });
+
+    if (!category) {
+      return res.status(404).json({ error: 'Category not found' });
+    }
+
+    // Update fields
+    category.name = name;
+    category.description = description;
+
+    await categoryRepo.save(category);
+
+    return res.status(200).json({ message: 'Category updated successfully', category });
+  } catch (error: any) {
+    console.error('Error updating category:', error);
+
+    if (error.code === 'SQLITE_CONSTRAINT' || error.code === '23505') {
+      return res.status(409).json({ error: 'Category name must be unique' });
+    }
+
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+};

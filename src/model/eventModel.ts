@@ -11,6 +11,7 @@ import {
   CreateDateColumn,
   JoinColumn,
   ManyToMany,
+  JoinTable
   
 } from 'typeorm';
 import { Tag } from './tagModel';
@@ -46,10 +47,11 @@ export class Event {
     creator!:User;
 
     @ManyToMany(() => Tag, tag => tag.events, { cascade: true })
+    @JoinTable()
     tags!: Tag[];
 
     @Column({ nullable: true })
-    maxCapacity!: number;
+    maxCapacity?: number;
 
     @OneToMany(() => RSVP, (rsvp) => rsvp.event)
     rsvps!: RSVP[];

@@ -21,3 +21,12 @@ export function isBoath(req: Request, res: Response, next: NextFunction) {
   }
   next();
 }
+
+
+export function isAdminOrEventCreator(req: Request, res: Response, next: NextFunction) {
+  const user = req.user;
+  if (user?.type === 'admin' || user?.type === 'event_creator') {
+    return next();
+  }
+  return res.status(403).json({ message: 'Forbidden' });
+}
