@@ -4,7 +4,7 @@ import adminRoutes from './routes/adminRoutes';
 import cors from 'cors';
 import { AppDataSource } from './db';
 import emsCategoriesRoutes from './routes/emsCategoriesRoutes';
-import eventToutes from './routes/eventRoutes';
+import eventRoutes from './routes/eventRoutes';
 
 
 AppDataSource.initialize()
@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
 app.use('/users', userRoutes);
 app.use('/admin', adminRoutes);
 app.use('/ems', emsCategoriesRoutes);
-app.use('/event', eventToutes);
+app.use('/event', eventRoutes);
 
 // Pokretanje servera
 app.listen(PORT, () => {
