@@ -5,15 +5,18 @@ import { RSVP } from "./model/rsvpModel";
 import { Tag } from "./model/tagModel";
 import { Comment } from "./model/comentModel";
 import { Event } from "./model/eventModel";
+import { EventView } from "./model/EventViewModel";
+import { CommentReaction } from "./model/CommentReactionModel";
+import { EventReaction } from "./model/EventReactionModel";
 
 export const AppDataSource = new DataSource({
   type: "mysql",
   host: "127.0.0.1",
   port: 3306,
-  username: "root",          // tvoj MySQL korisnik
-  password: "root", // lozinka za MySQL
+  username: "root",            // MySQL korisnik
+  password: "root",           // lozinka za MySQL
   database: "eventbooker",   // ime baze
   synchronize: true,
   logging: true,
-  entities: [User,Category,Comment,Event,RSVP,Tag],          // dodaj i ostale entitete
+  entities: [User,Category,Comment,Event,RSVP,Tag,EventView,CommentReaction,EventReaction],          // dodaj i ostale entitete
 });

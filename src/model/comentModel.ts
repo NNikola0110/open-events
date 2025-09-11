@@ -13,6 +13,7 @@ import {
   ManyToMany
 } from 'typeorm';
 import { Event } from './eventModel';
+import { CommentReaction } from './CommentReactionModel';
 
 @Entity()
 export class Comment{
@@ -37,4 +38,8 @@ export class Comment{
 
   @Column({ default: 0 })
   dislikeCount!: number;
+
+  @OneToMany(() => CommentReaction, (reaction) => reaction.comment)
+  reactions!: CommentReaction[];
+
 }

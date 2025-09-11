@@ -6,8 +6,8 @@ import de from 'zod/v4/locales/de.js';
 
 const routs =express.Router();
 
-routs.post('/createEvent',authenticateToken,isAdmin || isEventCreator,addEvent);
-routs.get('/events',authenticateToken, isAdmin || isEventCreator,getEvents);
+routs.post('/createEvent',authenticateToken,isAdminOrEventCreator,addEvent);
+routs.get('/events' ,getEvents);
 routs.delete('/events/:id',authenticateToken, isAdminOrEventCreator,deleteEvent);
 routs.put('/events/:id',authenticateToken,  isAdmin ,updateEvent);
 routs.get('/events/:id',authenticateToken, isAdminOrEventCreator,getEventbyID);

@@ -19,6 +19,8 @@ import { RSVP } from './rsvpModel';
 import { User } from './userModel';
 import { Category } from './categoriModel';
 import { Comment } from './comentModel';
+import { EventView } from './EventViewModel';
+import { EventReaction } from './EventReactionModel';
 
 @Entity()
 export class Event {
@@ -67,4 +69,11 @@ export class Event {
 
     @Column({ default: 0 })
     dislikeCount!: number;
+
+    @OneToMany(() => EventView, (view) => view.event)
+    views!: EventView[];
+
+    @OneToMany(() => EventReaction, (reaction) => reaction.event)
+    reactions!: EventReaction[];
+
 }

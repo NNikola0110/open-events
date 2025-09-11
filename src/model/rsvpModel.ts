@@ -9,7 +9,8 @@ import {
   Unique,
   ManyToOne,
   CreateDateColumn,
-  JoinColumn
+  JoinColumn,
+  Index
 } from 'typeorm';
 import { User } from './userModel';
 import { Event } from './eventModel';
@@ -18,6 +19,7 @@ import { Event } from './eventModel';
 
 @Entity()
 @Unique(["user", "event"])
+@Unique('UQ_RSVP_GUEST_EVENT', ['guestEmail', 'event'])
 export class RSVP{
 
     @PrimaryGeneratedColumn()
@@ -33,6 +35,13 @@ export class RSVP{
     @ManyToOne(() => Event, event => event.rsvps, { onDelete: "CASCADE" })
     event!: Event;
 
+@Column({ type: 'varchar', length: 191, nullable: true })
+guestName?: string;
 
+@Column({ type: 'varchar', length: 191, nullable: true })
+guestEmail?: string;
+
+@Column({ type: 'varchar', length: 191, nullable: true })
+visitorId?: string;
 
 }
